@@ -53,40 +53,6 @@ void Model::printModel()
         cout << endl;
     }
 }
-void Model::set_carrot(Carrot *carrot)
-{
-    masC.push_back(carrot);
-}
-void Model::set_rabbit(Rabbit *rabbit)
-{
-    masR.push_back(rabbit);
-}
-void Model::set_wolf(Wolf *wolf)
-{
-    masW.push_back(wolf);
-}
-void Model::set_field()
-{
-    if (n > 0 && m > 0)
-    {
-        field = new int *[m];
-        for (int i = 0; i < m; i++)
-            field[i] = new int[n];
-    }
-}
-void Model::spawnCarrot()
-{
-    int x = 0;
-    int y = 0;
-    int size = COUNTCARROTS - masC.size();
-    for (int i = 0; i < size; i++)
-    {
-        x = rand() % n;
-        y = rand() % m;
-        Carrot *carrot = new Carrot(x, y);
-        set_carrot(carrot);
-    }
-}
 void Model::newStep()
 {
     spawnCarrot();
@@ -95,16 +61,11 @@ void Model::newStep()
     {
         carrot->age++;
         if (carrot->age == carrot->deathAge)
-        {
-            auto indexDeadCarrot = find(masC.begin(), masC.end(), carrot);
-            masC.erase(indexDeadCarrot);
-            delete carrot;
-        }
+            deathCarrot(carrot);
     }
 
     for (Rabbit *rabbit : masR)
     {
-        // cout << "rabbit direction" << rabbit->direction << endl;
         rabbit->Move();
         rabbit->age++;
         rabbit->decrease_saturation();
@@ -113,10 +74,7 @@ void Model::newStep()
         {
             if ((rabbit->x == carrot->x) && (rabbit->y == carrot->y))
             {
-                auto indexDeadCarrot = find(masC.begin(), masC.end(), carrot);
-                masC.erase(indexDeadCarrot);
-                delete carrot;
-
+                deathCarrot(carrot);
                 rabbit->increase_saturation();
             }
         }
@@ -130,9 +88,7 @@ void Model::newStep()
         }
         if (rabbit->saturation < 0)
         {
-            auto indexDeadRabbit = find(masR.begin(), masR.end(), rabbit);
-            masR.erase(indexDeadRabbit);
-            delete rabbit;
+            deathRabbit(rabbit);
         }
     }
     for (Wolf *wolf : masW)
@@ -144,9 +100,7 @@ void Model::newStep()
         {
             if ((wolf->x == rabbit->x) && (wolf->y == rabbit->y))
             {
-                auto indexDeadRabbit = find(masR.begin(), masR.end(), rabbit);
-                masR.erase(indexDeadRabbit);
-                delete rabbit;
+                deathRabbit(rabbit);
 
                 wolf->increase_saturation();
                 wolf->countFeed++;
@@ -163,11 +117,38 @@ void Model::newStep()
             }
         }
         if (wolf->saturation < 0)
-        {
-            auto indexDeadWolf = find(masW.begin(), masW.end(), wolf);
-            masW.erase(indexDeadWolf);
-            delete wolf;
-        }
+            deathWolf(wolf);
+    }
+}
+void Model::deathCarrot(Carrot *carrot)
+{
+    auto indexDeadCarrot = find(masC.begin(), masC.end(), carrot);
+    masC.erase(indexDeadCarrot);
+    delete carrot;
+}
+void Model::deathRabbit(Rabbit *rabbit)
+{
+    auto indexDeadRabbit = find(masR.begin(), masR.end(), rabbit);
+    masR.erase(indexDeadRabbit);
+    delete rabbit;
+}
+void Model::deathWolf(Wolf *wolf)
+{
+    auto indexDeadWolf = find(masW.begin(), masW.end(), wolf);
+    masW.erase(indexDeadWolf);
+    delete wolf;
+}
+void Model::spawnCarrot()
+{
+    int x = 0;
+    int y = 0;
+    int size = COUNTCARROTS - masC.size();
+    for (int i = 0; i < size; i++)
+    {
+        x = rand() % n;
+        y = rand() % m;
+        Carrot *carrot = new Carrot(x, y);
+        set_carrot(carrot);
     }
 }
 Model::~Model()
@@ -189,4 +170,25 @@ Model::~Model()
         delete[] field[i];
     }
     delete[] field;
+}
+void Model::set_field()
+{
+    if (n > 0 && m > 0)
+    {
+        field = new int *[m];
+        for (int i = 0; i < m; i++)
+            field[i] = new int[n];
+    }
+}
+void Model::set_carrot(Carrot *carrot)
+{
+    masC.push_back(carrot);
+}
+void Model::set_rabbit(Rabbit *rabbit)
+{
+    masR.push_back(rabbit);
+}
+void Model::set_wolf(Wolf *wolf)
+{
+    masW.push_back(wolf);
 }

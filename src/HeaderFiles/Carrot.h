@@ -18,6 +18,4 @@ public:
 public:
     int get_x() const { return x; }
     int get_y() const { return y; }
-    int get_stability() const { return stability; }
-    int get_direction() const { return direction; }
 };

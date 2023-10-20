@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     {
         x = rand() % n;
         y = rand() % m;
-        Rabbit *rabbit = new Rabbit(x, y, 0, 2);
+        Rabbit *rabbit = new Rabbit(x, y);
         model.set_rabbit(rabbit);
     }
 
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     {
         x = rand() % n;
         y = rand() % m;
-        Wolf *wolf = new Wolf(x, y, 0, 2);
+        Wolf *wolf = new Wolf(x, y);
         model.set_wolf(wolf);
     }
     while (true)
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
         model.printModel();
         cout << "n: " << Model::n << endl;
         cout << "m: " << Model::m << endl;
-        cout << "Count foxes: " << model.get_countWolves() << endl;
+        cout << "Count wolves: " << model.get_countWolves() << endl;
         cout << "Count rabbits: " << model.get_countRabbits() << endl;
         cout << "Count carrots: " << model.get_countCarrots() << endl;
         model.newStep();

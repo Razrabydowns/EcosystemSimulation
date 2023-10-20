@@ -2,42 +2,25 @@
 #include "Model.h"
 #include <iostream>
 using namespace std;
-void Creature::change(int d)
+void Creature::Move()
 {
+    int newX = x;
+    int newY = y;
+    newX += (rand() % 3 - 1); // от -1 до 1
+    newY += (rand() % 3 - 1); // от -1 до 1
 
-    switch (d)
-    {
-    case 0:
-        y -= step;
-        if (y < 0)
-            y = Model::m - 1;
-        break;
-    case 1:
-        x += step;
-        if (x > Model::n - 1)
-            x = 0;
-        break;
-    case 2:
-        y += step;
-        if (y > Model::m - 1)
-            y = 0;
-        break;
-    case 3:
-        x -= step;
-        if (x < 0)
-            x = Model::n - 1;
-        break;
-    }
-}
-int Creature::changeDirection()
-{
-    changeDir++;
-    if (changeDir == stability)
-    {
-        direction++;
-        if (direction == 4)
-            direction = 0;
-        changeDir = 0;
-    }
-    return direction;
+    if (newY < 0)
+        newY = Model::m - 1;
+
+    if (newX > Model::n - 1)
+        newX = 0;
+
+    if (newY > Model::m - 1)
+        newY = 0;
+
+    if (newX < 0)
+        newX = Model::n - 1;
+
+    x = newX;
+    y = newY;
 }

@@ -24,6 +24,9 @@ public:
 
 private:
     void spawnCarrot();
+    void deathCarrot(Carrot *carrot);
+    void deathRabbit(Rabbit *rabbit);
+    void deathWolf(Wolf *wolf);
 
 private:
     vector<Carrot *> masC;
