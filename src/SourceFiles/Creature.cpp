@@ -6,8 +6,8 @@ void Creature::Move()
 {
     int newX = x;
     int newY = y;
-    newX += (rand() % 3 - 1); // от -1 до 1
-    newY += (rand() % 3 - 1); // от -1 до 1
+    newX += (rand() % 3 - 1) * step; // от -1 до 1
+    newY += (rand() % 3 - 1) * step; // от -1 до 1
 
     if (newY < 0)
         newY = Model::m - 1;

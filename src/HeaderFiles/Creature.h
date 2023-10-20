@@ -12,6 +12,6 @@ public:
     int deathAge;
     void Move();
 
-protected:
+public:
     int step; // шаг хода, у зайца - 1, у лисы - 2
 };

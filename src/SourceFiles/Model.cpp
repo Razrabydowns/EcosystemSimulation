@@ -93,6 +93,11 @@ void Model::newStep()
     }
     for (Wolf *wolf : masW)
     {
+        if (wolf->saturation < 0.5)
+            wolf->step = 2;
+        else
+            wolf->step = 1;
+
         wolf->Move();
         wolf->age++;
         wolf->decrease_saturation();
