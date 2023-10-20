@@ -1,16 +1,15 @@
 #pragma once
 #include <iostream>
-#include "Animal.h"
+#include "Creature.h"
 #include "Rabbit.h"
 using namespace ::std;
-class Wolf : public Animal
+class Wolf : public Creature
 {
 public:
-    Wolf() : Animal()
+    Wolf() : Creature()
     {
-        Animal::deathAge = 15;
-        Animal::step = 2;
-        saturation = 0;
+        Creature::step = 2;
+        saturation = 1;
     }
     Wolf(int x, int y, int direction, int stability) : Wolf()
     {
@@ -27,13 +26,15 @@ public:
         this->changeDir = 0;
         this->stability = wolf->stability;
         this->age = 0;
-        this->deathAge = wolf->deathAge;
         this->step = wolf->step;
-        this->saturation = 0;
+        this->saturation = 1;
     }
     void Move();
+    int countFeed;
     int saturation; // насыщение
 public:
+    void increase_saturation() { this->saturation += 0.2; }
+    void decrease_saturation() { this->saturation -= 0.2; }
     // геттеры и сеттеры
     int get_x() const { return x; }
     int get_y() const { return y; }

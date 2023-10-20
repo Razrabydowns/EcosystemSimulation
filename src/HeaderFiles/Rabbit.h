@@ -1,12 +1,12 @@
 #pragma once
-#include "Animal.h"
-class Rabbit : public Animal
+#include "Creature.h"
+class Rabbit : public Creature
 {
 public:
-    Rabbit() : Animal()
+    Rabbit() : Creature()
     {
-        Animal::deathAge = 10;
-        Animal::step = 1;
+        Creature::step = 1;
+        saturation = 1;
     }
     Rabbit(int x, int y, int direction, int stability) : Rabbit()
     {
@@ -24,13 +24,16 @@ public:
         this->changeDir = 0;
         this->stability = rabbit->stability;
         this->age = 0;
-        this->deathAge = rabbit->deathAge;
         this->step = rabbit->step;
+        this->saturation = 1;
     }
     ~Rabbit(){};
     void Move();
+    int saturation;
 
 public:
+    void increase_saturation() { this->saturation += 0.2; }
+    void decrease_saturation() { this->saturation -= 0.2; }
     int get_x() const { return x; }
     int get_y() const { return y; }
     int get_stability() const { return stability; }

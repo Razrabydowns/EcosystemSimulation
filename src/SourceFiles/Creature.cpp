@@ -1,8 +1,8 @@
-#include "Animal.h"
+#include "Creature.h"
 #include "Model.h"
 #include <iostream>
 using namespace std;
-void Animal::change(int d)
+void Creature::change(int d)
 {
 
     switch (d)
@@ -29,7 +29,7 @@ void Animal::change(int d)
         break;
     }
 }
-int Animal::changeDirection()
+int Creature::changeDirection()
 {
     changeDir++;
     if (changeDir == stability)

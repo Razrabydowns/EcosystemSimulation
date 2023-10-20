@@ -1,10 +1,10 @@
 #pragma once
 #include <cstdlib>
-class Animal
+class Creature
 {
 public:
-    Animal() : age(0), changeDir(0), stability(0), x(0), y(0), direction(0) {}
-    ~Animal() {}
+    Creature() : age(0), changeDir(0), stability(0), x(0), y(0), direction(0) {}
+    ~Creature() {}
     // координаты зверя на поле
     int x;
     int y;
