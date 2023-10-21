@@ -4,6 +4,7 @@
 #include "Rabbit.h"
 #include "Carrot.h"
 #define COUNTCARROTS 5
+#define COUNTWOLVES 5
 using std::vector;
 class Model
 {
@@ -13,7 +14,7 @@ public:
         this->n = n;
         this->m = m;
         set_field();
-        spawnCarrot();
+        spawnCarrots();
     }
     ~Model();
     static int n;
@@ -23,10 +24,14 @@ public:
     void freeMemory();
 
 private:
-    void spawnCarrot();
+    void spawnCarrots();
     void deathCarrot(Carrot *carrot);
     void deathRabbit(Rabbit *rabbit);
     void deathWolf(Wolf *wolf);
+    void stepCarrot();
+    void stepRabbit();
+    void stepWolf();
+    void spawnWolves();
 
 private:
     vector<Carrot *> masC;

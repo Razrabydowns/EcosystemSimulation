@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         cout << "Count rabbits: " << model.get_countRabbits() << endl;
         cout << "Count carrots: " << model.get_countCarrots() << endl;
         model.newStep();
-        sleep(2);
+        sleep(1);
     }
     return 0;
 }

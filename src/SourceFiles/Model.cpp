@@ -18,7 +18,7 @@ void Model::printModel()
     {
         cout << "MasC[i]->y" << masC[i]->y << endl;
         cout << "MasC[i]->x" << masC[i]->x << endl;
-        field[masC[i]->y][masC[i]->x] = 100;
+        field[masC[i]->y][masC[i]->x] = 10000;
     }
     for (int i = 0; i < masW.size(); i++)
     {
@@ -41,7 +41,7 @@ void Model::printModel()
             {
                 cout << '*';
             }
-            else if (field[i][j] == 100)
+            else if (field[i][j] == 10000)
             {
                 cout << 'c';
             }
@@ -55,21 +55,26 @@ void Model::printModel()
 }
 void Model::newStep()
 {
-    spawnCarrot();
-
+    spawnCarrots();
+    spawnWolves();
+    stepCarrot();
+    stepRabbit();
+    stepWolf();
+}
+void Model::stepCarrot()
+{
     for (Carrot *carrot : masC)
     {
         carrot->age++;
         if (carrot->age == carrot->deathAge)
             deathCarrot(carrot);
     }
-
+}
+void Model::stepRabbit()
+{
     for (Rabbit *rabbit : masR)
     {
         rabbit->Move();
-        rabbit->age++;
-        rabbit->decrease_saturation();
-
         for (Carrot *carrot : masC)
         {
             if ((rabbit->x == carrot->x) && (rabbit->y == carrot->y))
@@ -86,11 +91,16 @@ void Model::newStep()
             rabbit->decrease_saturation();
             rabbit->decrease_saturation();
         }
+        rabbit->age++;
+        rabbit->decrease_saturation();
         if (rabbit->saturation < 0)
         {
             deathRabbit(rabbit);
         }
     }
+}
+void Model::stepWolf()
+{
     for (Wolf *wolf : masW)
     {
         if (wolf->saturation < 0.5)
@@ -98,29 +108,33 @@ void Model::newStep()
         else
             wolf->step = 1;
 
-        wolf->Move();
-        wolf->age++;
-        wolf->decrease_saturation();
-        for (Rabbit *rabbit : masR)
+        while (wolf->step != 0)
         {
-            if ((wolf->x == rabbit->x) && (wolf->y == rabbit->y))
+            wolf->Move();
+            for (Rabbit *rabbit : masR)
             {
-                deathRabbit(rabbit);
-
-                wolf->increase_saturation();
-                wolf->countFeed++;
-
-                if (wolf->countFeed >= 2)
+                if ((wolf->x == rabbit->x) && (wolf->y == rabbit->y))
                 {
-                    wolf->decrease_saturation();
-                    wolf->decrease_saturation();
+                    deathRabbit(rabbit);
 
-                    Wolf *newWolf = new Wolf(*wolf);
-                    masW.push_back(newWolf);
-                    wolf->countFeed = -1000;
+                    wolf->increase_saturation();
+                    wolf->countFeed++;
+
+                    if (wolf->countFeed >= 2)
+                    {
+                        wolf->decrease_saturation();
+                        wolf->decrease_saturation();
+
+                        Wolf *newWolf = new Wolf(*wolf);
+                        masW.push_back(newWolf);
+                        wolf->countFeed = -1000;
+                    }
                 }
             }
+            wolf->step--;
         }
+        wolf->age++;
+        wolf->decrease_saturation();
         if (wolf->saturation < 0)
             deathWolf(wolf);
     }
@@ -143,11 +157,24 @@ void Model::deathWolf(Wolf *wolf)
     masW.erase(indexDeadWolf);
     delete wolf;
 }
-void Model::spawnCarrot()
+void Model::spawnCarrots()
 {
     int x = 0;
     int y = 0;
     int size = COUNTCARROTS - masC.size();
+    for (int i = 0; i < size; i++)
+    {
+        x = rand() % n;
+        y = rand() % m;
+        Carrot *carrot = new Carrot(x, y);
+        set_carrot(carrot);
+    }
+}
+void Model::spawnWolves()
+{
+    int x = 0;
+    int y = 0;
+    int size = COUNTWOLVES - masW.size();
     for (int i = 0; i < size; i++)
     {
         x = rand() % n;
