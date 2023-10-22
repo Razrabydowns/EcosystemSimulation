@@ -179,8 +179,8 @@ void Model::spawnWolves()
     {
         x = rand() % n;
         y = rand() % m;
-        Carrot *carrot = new Carrot(x, y);
-        set_carrot(carrot);
+        Wolf *wolf = new Wolf(x, y);
+        set_wolf(wolf);
     }
 }
 Model::~Model()

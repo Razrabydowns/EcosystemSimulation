@@ -25,16 +25,6 @@ int main(int argc, char *argv[])
         Rabbit *rabbit = new Rabbit(x, y);
         model.set_rabbit(rabbit);
     }
-
-    cout << "Введите количество волков" << endl;
-    cin >> countWolfes;
-    for (int i = 0; i < countWolfes; i++)
-    {
-        x = rand() % n;
-        y = rand() % m;
-        Wolf *wolf = new Wolf(x, y);
-        model.set_wolf(wolf);
-    }
     while (true)
     {
         std::cout << "\x1B[2J\x1B[H"; // типа выводит "clear" в bash
