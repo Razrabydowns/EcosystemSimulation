@@ -5,8 +5,9 @@ class Carrot : public Creature
 public:
     Carrot() : Creature()
     {
-        Creature::deathAge = 5;
+        deathAge = 5;
         Creature::step = 0;
+        age = 0;
     }
     Carrot(int x, int y) : Carrot()
     {
@@ -14,6 +15,8 @@ public:
         this->y = y;
     }
     ~Carrot(){};
+    int age;
+    int deathAge;
 
 public:
     int get_x() const { return x; }

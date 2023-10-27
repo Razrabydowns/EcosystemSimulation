@@ -15,6 +15,7 @@ public:
         this->m = m;
         set_field();
         spawnCarrots();
+        spawnWolves();
     }
     ~Model();
     static int n;

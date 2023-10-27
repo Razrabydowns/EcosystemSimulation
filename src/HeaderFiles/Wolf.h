@@ -10,6 +10,7 @@ public:
     {
         Creature::step = 1;
         saturation = 1;
+        countFeed = 0;
     }
     Wolf(int x, int y) : Wolf()
     {
@@ -20,9 +21,9 @@ public:
     {
         this->x = wolf->x;
         this->y = wolf->y;
-        this->age = 0;
         this->step = wolf->step;
         this->saturation = 1;
+        this->countFeed = 0;
     }
     int countFeed;
     int saturation; // насыщение

@@ -84,14 +84,13 @@ void Model::stepRabbit()
             }
         }
 
-        if (rand() % 100 < 1) // Размножение с 25% шансом
+        if (rand() % 25 < 1) // Размножение с 25% шансом
         {
             Rabbit *newRabbit = new Rabbit(*rabbit);
-            masR.push_back(newRabbit);
+            set_rabbit(newRabbit);
             rabbit->decrease_saturation();
             rabbit->decrease_saturation();
         }
-        rabbit->age++;
         rabbit->decrease_saturation();
         if (rabbit->saturation < 0)
         {
@@ -126,14 +125,13 @@ void Model::stepWolf()
                         wolf->decrease_saturation();
 
                         Wolf *newWolf = new Wolf(*wolf);
-                        masW.push_back(newWolf);
+                        set_wolf(newWolf);
                         wolf->countFeed = -1000;
                     }
                 }
             }
             wolf->step--;
         }
-        wolf->age++;
         wolf->decrease_saturation();
         if (wolf->saturation < 0)
             deathWolf(wolf);
@@ -141,21 +139,39 @@ void Model::stepWolf()
 }
 void Model::deathCarrot(Carrot *carrot)
 {
+    if (carrot == nullptr)
+        return;
+
     auto indexDeadCarrot = find(masC.begin(), masC.end(), carrot);
-    masC.erase(indexDeadCarrot);
-    delete carrot;
+    if (indexDeadCarrot != masC.end())
+    {
+        delete *indexDeadCarrot;     // освобождение памяти, выделенной для объекта
+        masC.erase(indexDeadCarrot); // удаление указателя на объект из вектора
+    }
 }
 void Model::deathRabbit(Rabbit *rabbit)
 {
+    if (rabbit == nullptr)
+        return;
+
     auto indexDeadRabbit = find(masR.begin(), masR.end(), rabbit);
-    masR.erase(indexDeadRabbit);
-    delete rabbit;
+    if (indexDeadRabbit != masR.end())
+    {
+        delete *indexDeadRabbit;     // освобождение памяти, выделенной для объекта
+        masR.erase(indexDeadRabbit); // удаление указателя на объект из вектора
+    }
 }
 void Model::deathWolf(Wolf *wolf)
 {
+    if (wolf == nullptr)
+        return;
+
     auto indexDeadWolf = find(masW.begin(), masW.end(), wolf);
-    masW.erase(indexDeadWolf);
-    delete wolf;
+    if (indexDeadWolf != masW.end())
+    {
+        delete *indexDeadWolf;     // освобождение памяти, выделенной для объекта
+        masW.erase(indexDeadWolf); // удаление указателя на объект из вектора
+    }
 }
 void Model::spawnCarrots()
 {
@@ -178,7 +194,17 @@ void Model::spawnWolves()
     for (int i = 0; i < size; i++)
     {
         x = rand() % n;
-        y = rand() % m;
+        if (x == 0 || x == n - 1)
+        {
+            y = rand() % n;
+        }
+        else
+        {
+            if ((rand() % 100) < 50)
+                y = 0;
+            else
+                y = m - 1;
+        }
         Wolf *wolf = new Wolf(x, y);
         set_wolf(wolf);
     }

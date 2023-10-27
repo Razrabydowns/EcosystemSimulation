@@ -1,5 +1,6 @@
 #pragma once
 #include "Creature.h"
+#include <iostream>
 class Rabbit : public Creature
 {
 public:
@@ -17,11 +18,10 @@ public:
     {
         this->x = rabbit->x;
         this->y = rabbit->y;
-        this->age = 0;
         this->step = rabbit->step;
         this->saturation = 1;
     }
-    ~Rabbit(){};
+    ~Rabbit() { std::cout << "rabbit сдох" << std::endl; }
     int saturation;
 
 public:
