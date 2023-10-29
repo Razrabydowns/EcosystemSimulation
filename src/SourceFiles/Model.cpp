@@ -125,6 +125,19 @@ void Model::stepWolf()
         while (wolf->step != 0)
         {
             wolf->Move();
+            for (auto it2 = masC.begin(); it2 != masC.end();)
+            {
+                Carrot *carrot = *it2;
+                if ((wolf->x == carrot->x) && (wolf->y == carrot->y))
+                {
+                    delete carrot;         // освобождение памяти, выделенной для объекта
+                    it2 = masC.erase(it2); // удаление указателя на объект из вектора
+                }
+                else
+                {
+                    ++it2;
+                }
+            }
             for (auto it2 = masR.begin(); it2 != masR.end();)
             {
                 Rabbit *rabbit = *it2;
