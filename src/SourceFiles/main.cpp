@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fstream>
+#include <ctime>
 #include "Wolf.h"
 #include "Rabbit.h"
 #include "Model.h"
@@ -11,13 +12,10 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
-    int countFoxes, countRabbits, x, y;
-    Model model;
     int n = 10;
     int m = 10;
-    model.set_n(n);
-    model.set_m(m);
-    model.set_field();
+    int countWolfes, countRabbits, x, y;
+    Model model(n, m);
 
     cout << "Введите количество зайцев" << endl;
     cin >> countRabbits;
@@ -25,18 +23,8 @@ int main(int argc, char *argv[])
     {
         x = rand() % n;
         y = rand() % m;
-        Rabbit *rabbit = new Rabbit(x, y, 0, 2);
+        Rabbit *rabbit = new Rabbit(x, y);
         model.set_rabbit(rabbit);
-    }
-
-    cout << "Введите количество лисов" << endl;
-    cin >> countFoxes;
-    for (int i = 0; i < countFoxes; i++)
-    {
-        x = rand() % n;
-        y = rand() % m;
-        Wolf *wolf = new Wolf(x, y, 0, 2);
-        model.set_wolf(wolf);
     }
     while (true)
     {
@@ -44,8 +32,9 @@ int main(int argc, char *argv[])
         model.printModel();
         cout << "n: " << Model::n << endl;
         cout << "m: " << Model::m << endl;
-        cout << "Count foxes: " << model.get_countWolves() << endl;
+        cout << "Count wolves: " << model.get_countWolves() << endl;
         cout << "Count rabbits: " << model.get_countRabbits() << endl;
+        cout << "Count carrots: " << model.get_countCarrots() << endl;
         model.newStep();
         sleep(1);
     }
