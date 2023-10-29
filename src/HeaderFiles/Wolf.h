@@ -26,7 +26,7 @@ public:
         this->countFeed = 0;
     }
     int countFeed;
-    int saturation; // насыщение
+    float saturation; // насыщение
 
 public:
     void increase_saturation() { this->saturation += 0.2; }

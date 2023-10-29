@@ -63,27 +63,37 @@ void Model::newStep()
 }
 void Model::stepCarrot()
 {
-    for (Carrot *carrot : masC)
+    for (auto it = masC.begin(); it != masC.end();)
     {
+        Carrot *carrot = *it;
         carrot->age++;
         if (carrot->age == carrot->deathAge)
             deathCarrot(carrot);
+
+        it++;
     }
 }
 void Model::stepRabbit()
 {
-    for (Rabbit *rabbit : masR)
+    for (auto it = masR.begin(); it != masR.end();)
     {
+        Rabbit *rabbit = *it;
         rabbit->Move();
-        for (Carrot *carrot : masC)
+
+        for (auto it2 = masC.begin(); it2 != masC.end();)
         {
+            Carrot *carrot = *it2;
             if ((rabbit->x == carrot->x) && (rabbit->y == carrot->y))
             {
-                deathCarrot(carrot);
+                delete carrot;         // освобождение памяти, выделенной для объекта
+                it2 = masC.erase(it2); // удаление указателя на объект из вектора
                 rabbit->increase_saturation();
             }
+            else
+            {
+                ++it2;
+            }
         }
-
         if (rand() % 25 < 1) // Размножение с 25% шансом
         {
             Rabbit *newRabbit = new Rabbit(*rabbit);
@@ -94,27 +104,34 @@ void Model::stepRabbit()
         rabbit->decrease_saturation();
         if (rabbit->saturation < 0)
         {
-            deathRabbit(rabbit);
+            delete rabbit;       // освобождение памяти, выделенной для объекта
+            it = masR.erase(it); // удаление указателя на объект из вектора
+        }
+        else
+        {
+            ++it;
         }
     }
 }
 void Model::stepWolf()
 {
-    for (Wolf *wolf : masW)
+    for (auto it = masW.begin(); it != masW.end();)
     {
+        Wolf *wolf = *it;
         if (wolf->saturation < 0.5)
             wolf->step = 2;
         else
             wolf->step = 1;
-
         while (wolf->step != 0)
         {
             wolf->Move();
-            for (Rabbit *rabbit : masR)
+            for (auto it2 = masR.begin(); it2 != masR.end();)
             {
+                Rabbit *rabbit = *it2;
                 if ((wolf->x == rabbit->x) && (wolf->y == rabbit->y))
                 {
-                    deathRabbit(rabbit);
+                    delete rabbit;         // освобождение памяти, выделенной для объекта
+                    it2 = masR.erase(it2); // удаление указателя на объект из вектора
 
                     wolf->increase_saturation();
                     wolf->countFeed++;
@@ -129,12 +146,24 @@ void Model::stepWolf()
                         wolf->countFeed = -1000;
                     }
                 }
+                else
+                {
+                    ++it2;
+                }
             }
             wolf->step--;
         }
         wolf->decrease_saturation();
+
         if (wolf->saturation < 0)
-            deathWolf(wolf);
+        {
+            delete wolf;         // освобождение памяти, выделенной для объекта
+            it = masW.erase(it); // удаление указателя на объект из вектора
+        }
+        else
+        {
+            ++it;
+        }
     }
 }
 void Model::deathCarrot(Carrot *carrot)

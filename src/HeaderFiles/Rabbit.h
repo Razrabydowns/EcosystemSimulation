@@ -21,8 +21,8 @@ public:
         this->step = rabbit->step;
         this->saturation = 1;
     }
-    ~Rabbit() { std::cout << "rabbit сдох" << std::endl; }
-    int saturation;
+    ~Rabbit() {}
+    float saturation;
 
 public:
     void increase_saturation() { this->saturation += 0.2; }
