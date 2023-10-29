@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fstream>
+#include <ctime>
 #include "Wolf.h"
 #include "Rabbit.h"
 #include "Model.h"

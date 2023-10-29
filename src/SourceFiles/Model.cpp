@@ -102,7 +102,7 @@ void Model::stepRabbit()
             rabbit->decrease_saturation();
         }
         rabbit->decrease_saturation();
-        if (rabbit->saturation < 0)
+        if (rabbit != NULL && rabbit->saturation < 0)
         {
             delete rabbit;       // освобождение памяти, выделенной для объекта
             it = masR.erase(it); // удаление указателя на объект из вектора
@@ -155,7 +155,7 @@ void Model::stepWolf()
         }
         wolf->decrease_saturation();
 
-        if (wolf->saturation < 0)
+        if (wolf != NULL && wolf->saturation < 0)
         {
             delete wolf;         // освобождение памяти, выделенной для объекта
             it = masW.erase(it); // удаление указателя на объект из вектора
